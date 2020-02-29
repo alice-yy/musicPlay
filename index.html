@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        body {
+            background-color: skyblue;
+        }
+        
+        .music {
+            position: relative;
+            /* overflow: hidden; */
+            width: 600px;
+            height: 300px;
+            background: rgba(0, 0, 0, .1);
+            /* background-color: pink; */
+            box-shadow: 3px 0 9px rgba(0, 0, 0, 0.2);
+            border-radius: 0 74px 0 74px;
+            margin: 40px auto;
+            transition: all .5s;
+        }
+        
+        .img {
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            box-shadow: 3px 0 9px rgba(0, 0, 0, 0.2);
+        }
+        
+        .music .img>img {
+            position: absolute;
+            /* top: 50%; */
+            /* left: 50%; */
+            /* transform: translate(-50%, -50%); */
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0.75;
+            /* transition: all 2s; */
+            /* animation: rotates 2s linear infinite; */
+        }
+        
+        .load {
+            position: absolute;
+            top: 167px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            /* margin: 100px auto; */
+            width: 150px;
+            height: 5px;
+            border-radius: 4px;
+            border: 1px solid #666;
+            box-shadow: 3px 0 9px rgba(0, 0, 0, 0.2);
+            /* margin: 0 auto; */
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .line {
+            width: 0;
+            height: 5px;
+            background-color: #ccc;
+        }
+        
+        .volte {
+            position: absolute;
+            right: 166px;
+            bottom: 126px;
+            width: 15px;
+            height: 60px;
+            border-radius: 19px;
+            background-color: #ccc;
+            box-shadow: 1px 0 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .volte::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: -20px;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            background-color: #b29878;
+        }
+        
+        .volte::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: -20px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #b29878;
+        }
+        
+        .cir {
+            /* content: ''; */
+            position: absolute;
+            bottom: 29px;
+            left: -20px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: #b29878;
+        }
+        
+        .bar {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 45%;
+            background-color: #555;
+            cursor: pointer;
+            box-shadow: 3px 0 9px rgba(0, 0, 0, 0.2);
+        }
+        
+        .num-box {
+            position: absolute;
+            bottom: 98px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            text-align: center;
+            width: 90px;
+            height: 20px;
+            /* background-color: red; */
+            color: #666;
+            cursor: default;
+        }
+        /* 旋转按钮 */
+        
+        .box1,
+        .box2,
+        .box3 {
+            position: absolute;
+            top: 211px;
+            left: 125px;
+            width: 93px;
+            height: 89px;
+        }
+        
+        .box2 {
+            top: 211px;
+            left: 256px;
+        }
+        
+        .box3 {
+            top: 211px;
+            left: 384px;
+        }
+        
+        .plays1,
+        .plays2,
+        .plays3 {
+            position: absolute;
+            width: 93px;
+            height: 89px;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            margin-left: -47px;
+            margin-top: -46px;
+            animation: rotate1 6s linear infinite;
+            background: url(images/index_z_9769688.png) -220px -494px no-repeat;
+            /* background: url(images/index_z_9769688.png) -812px -644px no-repeat; */
+        }
+        
+        .plays2 {
+            animation: rotate2 4s linear infinite;
+        }
+        
+        .plays3 {
+            animation: rotate3 6s linear infinite;
+        }
+        
+        .click,
+        .click2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 66px;
+            height: 64px;
+            background: url(images/index_z_9769688.png) -1001px -671px no-repeat;
+            /* background: url(images/index_z_9769688.png) -811px -643px no-repeat; */
+            cursor: pointer;
+            z-index: 3;
+        }
+        
+        .think {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            background-color: #666;
+            font-size: 12px;
+            cursor: pointer;
+            color: #333;
+            box-shadow: 3px 0 9px rgba(0, 0, 0, 0.2);
+        }
+        
+        .think2 {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            background-color: #666;
+            font-size: 12px;
+            cursor: pointer;
+            color: #333;
+            box-shadow: 3px 0 9px rgba(0, 0, 0, 0.2);
+        }
+        
+        #yuanli1,
+        #yuanli2 {
+            display: none;
+            position: absolute;
+            top: -38px;
+            left: 0;
+            z-index: 999;
+            width: 700px;
+            height: 700px;
+            border-radius: 0;
+            opacity: 0.8;
+            border-radius: 30px;
+            /* transition: all 0.5s; */
+        }
+        
+        #yuanli2 {
+            display: none;
+            width: 700px;
+            height: 400px;
+        }
+        
+        .close-box {
+            display: none;
+            position: absolute;
+            z-index: 999;
+            right: -96px;
+            top: -33px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            line-height: 40px;
+            text-align: center;
+            background-color: red;
+            box-shadow: 3px 0 9px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            opacity: 0.7;
+            color: #fff;
+        }
+        
+        .jiantou {
+            display: none;
+            position: absolute;
+            top: 97%;
+            right: -41px;
+            width: 40px;
+            height: 40px;
+            z-index: 999;
+            border: 4px solid pink;
+            transform: rotate(45deg);
+            border-color: pink pink transparent transparent;
+            /* box-shadow: 3px 0 9px rgba(0, 0, 0, 0.2); */
+            cursor: pointer;
+        }
+        
+        @keyframes rotate1 {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+        /* @keyframes rotate2 {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        } */
+        
+        @keyframes rotate3 {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* 为什么不能指定子盒子 */
+        
+        .box1:hover .plays1,
+        .box2:hover .plays2,
+        .box3:hover .plays3 {
+            animation-play-state: paused;
+        }
+        
+        @keyframes step {
+            0% {
+                background-position: 0 4px;
+            }
+            100% {
+                background-position: -1400px 4px;
+            }
+        }
+        
+        @keyframes move {
+            0% {
+                left: -193px;
+            }
+            100% {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+        
+        @keyframes bg {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: -3840px 0;
+            }
+        }
+        
+        .bg {
+            position: absolute;
+            width: 100%;
+            height: 200px;
+            /*margin: 100px auto;*/
+            bottom: 0;
+            background: url(images/bg1.png) 0 0 repeat;
+            animation: bg 40s linear infinite;
+        }
+        
+        .bear {
+            width: 193px;
+            height: 96px;
+            background: url(images/bear.png) -6px -4px no-repeat;
+            animation: step 0.8s steps(7) infinite;
+        }
+        
+        .move-bear {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            animation: move 7.0s linear forwards;
+        }
+        
+        .word {
+            position: absolute;
+            display: none;
+            bottom: 159px;
+            left: 147px;
+            width: 70px;
+            height: 20px;
+            line-height: 20px;
+            font-size: 12px;
+            color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="play1">
+        <source src="audio/can.mp3"></source>
+    </audio> -->
+    <audio id="play4">
+        <source src="audio/alice.mp3"></source>
+        
+    </audio>
+    <audio id="play5">
+        <source src="audio/xw.mp3"></source>
+    </audio>
+    <audio id="play3">
+        <source src="audio/y.mp3"></source>
+        
+    </audio>
+    <audio id="play2">
+        <source src="audio/xc.mp3"></source>
+        
+    </audio>
+
+    <div class="music">
+        <div class="img">
+            <img src="images/00.jpg" alt="">
+        </div>
+        <div class="load">
+            <div class="line"></div>
+        </div>
+        <div class="circle">
+            <ul>
+                <li>
+                    <div class="box1">
+                        <div class="plays1"> </div>
+                        <div class="click"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="box2">
+                        <div class="plays2"> </div>
+                        <div class="click2"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="box3">
+                        <div class="plays3"> </div>
+                        <div class="click"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="volte">
+            <div class="bar"></div>
+            <div class="cir"></div>
+        </div>
+        <div class="num-box">
+            <span class="seconed">0</span>:<span class="first">00</span>
+        </div>
+        <div class="think">原理</div>
+        <div class="think2">....</div>
+        <img src="images/1.png" alt="" id="yuanli1">
+        <img src="images/think2.png" alt="" id="yuanli2">
+        <div class="close-box">X</div>
+        <div class="jiantou"></div>
+        <div class="word">自己唱的<br>挺水的哈</div>
+    </div>
+    <div class="bg">
+        <div class="move-bear">
+            <div class="bear"></div>
+        </div>
+    </div>
+
+    <script>
+        var play1 = document.querySelector('#play1');
+        var play2 = document.querySelector('#play2');
+        var play3 = document.querySelector('#play3');
+        var play4 = document.querySelector('#play4');
+        var play5 = document.querySelector('#play5');
+        var count = 0;
+        var button = document.querySelector('.circle').querySelectorAll('li');
+        var allmusic = [play1, play2, play3, play4, play5];
+        var line = document.querySelector('.line');
+        var load = document.querySelector('.load');
+        var first = document.querySelector('.first');
+        var seconed = document.querySelector('.seconed');
+        var img = document.querySelector('img');
+        var music = document.querySelector('.music');
+        var click2 = document.querySelector('.click2');
+        var word = document.querySelector('.word');
+        var think2s = document.querySelector('#yuanli2');
+        var think2 = document.querySelector('.think2');
+        var index = 0;
+        var length;
+
+        button[1].addEventListener('click', function() {
+            if (count == 0) {
+                allmusic[index].play();
+                count++;
+                clearInterval(timer);
+                jindu();
+                numdisplay();
+                pic();
+                rotate.star();
+                /* background: */
+                click2.style.background = " url(images/index_z_9769688.png) -811px -643px no-repeat";
+
+            } else {
+                allmusic[index].pause();
+                rotate.end();
+                count--;
+                click2.style.background = " url(images/index_z_9769688.png) -1001px -671px no-repeat";
+
+            }
+        });
+        // 切换歌曲
+        var cut = {
+            pre: function() {
+                index--;
+                if (index < 0) {
+
+                    return index = allmusic.length - 1;
+                } else {
+                    return index;
+                }
+            },
+            next: function() {
+                index++;
+                if (index > allmusic.length - 1) {
+                    return index = 0;
+                } else {
+                    return index;
+                }
+            }
+        };
+        button[0].addEventListener('click', function() {
+            count = 1;
+            var i = cut.pre();
+            if (i == 1 || i == 2) {
+                word.style.display = 'block';
+            } else {
+                word.style.display = 'none';
+            }
+            clearInterval(timer);
+            jindu();
+            for (let i = 0; i < allmusic.length; i++) {
+                allmusic[i].load();
+            }
+            allmusic[i].play();
+            pic();
+            rotate.end();
+            rotate.star();
+            numdisplay();
+            click2.style.background = " url(images/index_z_9769688.png) -811px -643px no-repeat";
+
+        });
+
+
+        button[2].addEventListener('click', fn);
+
+        function fn() {
+            count = 1;
+            var i = cut.next();
+            if (i == 1 || i == 2) {
+                word.style.display = 'block';
+            } else {
+                word.style.display = 'none';
+            }
+            clearInterval(timer);
+            jindu();
+            for (let i = 0; i < allmusic.length; i++) {
+                allmusic[i].load();
+            }
+            allmusic[i].play();
+            pic();
+            rotate.end();
+            rotate.star();
+            numdisplay();
+            click2.style.background = " url(images/index_z_9769688.png) -811px -643px no-repeat";
+
+        };
+        // 进度条
+        var timer = null;
+
+        function jindu() {
+            var cur = allmusic[index].duration;
+            // console.log(cur);
+            // console.log(index);
+            // console.log(load.offsetWidth - 2);    
+            timer = setInterval(function() {
+                length = allmusic[index].currentTime;
+                line.style.width = parseFloat(length / cur) * 150 + 'px';
+            }, 50);
+        };
+        // 数字进度显示和自动播放下一首
+        var timers = null;
+
+        function numdisplay() {
+            timers = setInterval(function() {
+                var sec = parseInt(length % 60);
+                var min = parseInt(length / 60);
+                sec = sec >= 10 ? sec : '0' + sec;
+                first.innerHTML = sec;
+                seconed.innerHTML = min;
+                if (allmusic[index].currentTime == allmusic[index].duration) {
+                    button[2].click();
+                    clearInterval(timers);
+                }
+
+            }, 1000);
+        };
+        // 图片切换
+        function pic() {
+            img.src = 'images/0' + index + '.jpg'
+                // console.log(index);
+        };
+        // 图片点击
+        img.addEventListener('click', function() {
+                button[1].click();
+            })
+            // 图片旋转
+        var timerss = null;
+        var step = 0;
+        var rotate = {
+            star: function() {
+                timerss = setInterval(function() {
+                    step = step + 2;
+                    if (step >= 360) {
+                        step = 0;
+                    }
+                    img.style.transform = 'rotate(' + step + 'deg)';
+                    if (allmusic[index].currentTime == allmusic[index].duration) {
+                        clearInterval(timerss);
+                    }
+                }, 100)
+            },
+            end: function() {
+                clearInterval(timerss);
+            }
+        };
+        // 点击进度条实现歌曲拖拽
+        load.addEventListener('mousedown', function(e) {
+            var x = (e.pageX - (this.offsetLeft + music.offsetLeft - 76));
+            console.log(x);
+            allmusic[index].currentTime = (x * allmusic[index].duration) / 150;
+
+        });
+        // 调节音量
+        allmusic[index].volume = 0.5;
+        var bar = document.querySelector('.bar');
+        var volte = document.querySelector('.volte');
+        var firstss;
+        bar.style.top = '20px'
+        bar.addEventListener('mousedown', function(e) {
+            firstss = e.pageY - (this.offsetTop + volte.offsetTop + music.offsetTop);
+            // console.log(first);
+            bar.addEventListener('mousemove', fn1);
+
+            function fn1(e) {
+                var y = e.pageY - (volte.offsetTop + music.offsetTop);
+                // console.log(y);
+                bar.style.top = y - firstss + 'px';
+                if (bar.offsetTop <= 0) {
+                    bar.style.top = 0;
+                }
+                if (bar.offsetTop >= 45) {
+                    bar.style.top = 45 + 'px';
+                }
+                allmusic[index].volume = (bar.offsetTop / 45);
+
+                // console.log(allmusic[index].volume);
+            }
+            document.addEventListener('mouseup', function() {
+                bar.removeEventListener('mousemove', fn1);
+
+            })
+        })
+
+        // 原理显示
+        var yuanli = document.querySelector('#yuanli1');
+        var think = document.querySelector('.think');
+        var closebox = document.querySelector('.close-box');
+        var jiantou = document.querySelector('.jiantou');
+        think.addEventListener('click', function() {
+            yuanli.style.display = 'block';
+            closebox.style.display = 'block';
+            jiantou.style.display = 'block';
+        });
+        var jiantoui = 1;
+        jiantou.addEventListener('click', function() {
+            if (jiantoui == 1) {
+                jiantoui++;
+                jiantou.style.transform = 'rotate(-135deg)';
+                jiantou.style.left = '-41px';
+                yuanli.src = 'images/' + jiantoui + '.png'
+            } else {
+                jiantoui--;
+                jiantou.style.transform = 'rotate(45deg)';
+                jiantou.style.left = '';
+                jiantou.style.right = '-41px';
+                yuanli.src = 'images/' + jiantoui + '.png'
+            }
+        })
+        closebox.addEventListener('click', function() {
+            yuanli.style.display = 'none';
+            closebox.style.display = 'none';
+            jiantou.style.display = 'none';
+            think2s.style.display = 'none';
+        })
+        think2.addEventListener('click', function() {
+            think2s.style.display = 'block';
+            closebox.style.display = 'block';
+        })
+    </script>
+</body>
+
+</html>
